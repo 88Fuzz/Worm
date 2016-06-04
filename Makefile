@@ -105,3 +105,4 @@ openocd:
 
 clean:
 	rm bin/* obj/*
+	rmdir bin obj
