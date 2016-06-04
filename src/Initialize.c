@@ -5,6 +5,8 @@
 #include "driverlib/gpio.h"
 
 #include "Initialize.h"
+#include "PWMDefinitions.h"
+#include "Wheels.h"
 
 void init()
 {
@@ -25,13 +27,29 @@ void initPWM()
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
 
     //Enable ports 0-4 of PWM0
-    GPIOPinConfigure(GPIO_PB6_M0PWM0|GPIO_PB7_M0PWM1|GPIO_PB4_M0PWM2|GPIO_PB5_M0PWM3);
-    GPIOPinTypePWM(GPIO_PORTB_BASE, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_4|GPIO_PIN_2);
+    GPIOPinConfigure(WHEELS[0].pwmInfo.gpioConfig |
+            WHEELS[1].pwmInfo.gpioConfig |
+            WHEELS[2].pwmInfo.gpioConfig |
+            WHEELS[3].pwmInfo.gpioConfig);
+    GPIOPinTypePWM(GPIO_PORTB_BASE, WHEELS[0].pwmInfo.gpioPin |
+            WHEELS[1].pwmInfo.gpioPin |
+            WHEELS[2].pwmInfo.gpioPin |
+            WHEELS[3].pwmInfo.gpioPin);
 
     //Set the PWM0 run modes, since the motors will act on up ticks, these values don't matter too much
-    PWMGenConfigure(PWM0_BASE, PWM_GEN_0, PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);
+    PWMGenConfigure(PWM_BASE, WHEELS[0].pwmInfo.pwmOutPortBit |
+            WHEELS[1].pwmInfo.pwmOutPortBit |
+            WHEELS[2].pwmInfo.pwmOutPortBit |
+            WHEELS[3].pwmInfo.pwmOutPortBit,
+            PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);
 
     //Turn on PWM0
-    PWMOutputState(PWM0_BASE, PWM_OUT_0_BIT|PWM_OUT_1_BIT|PWM_OUT_2_BIT|PWM_OUT_3_BIT, true);
-    PWMGenEnable(PWM0_BASE, PWM_GEN_0);
+    PWMOutputState(PWM_BASE, PWM_OUT_0_BIT|PWM_OUT_1_BIT|PWM_OUT_2_BIT|PWM_OUT_3_BIT, true);
+    PWMGenEnable(PWM_BASE, PWM_GEN_0);
+
+    //Set all the PWM frequencies to 50Hz
+    PWMGenPeriodSet(PWM_BASE, WHEELS[0].pwmInfo.pwmOutPort |
+            WHEELS[1].pwmInfo.pwmOutPort |
+            WHEELS[2].pwmInfo.pwmOutPort |
+            WHEELS[3].pwmInfo.pwmOutPort, PWM_FREQUENCY);
 }
