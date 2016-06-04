@@ -20,6 +20,7 @@ typedef struct PWMInfo
     uint32_t gpioConfig;
     uint32_t gpioPin;
     uint32_t pwmOutPortBit;
+    uint32_t pwmGenPort;
     uint32_t pwmOutPort;
 } PWMInfo;
 
