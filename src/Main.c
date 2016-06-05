@@ -16,15 +16,15 @@ int main()
     {
         wait();
         PWMPulseWidthSet(PWM0_BASE, WHEELS[0].pwmInfo.pwmOutPort, WHEELS[0].forwardDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[1].pwmInfo.pwmOutPort, WHEELS[1].forwardDuty);
+        PWMPulseWidthSet(PWM0_BASE, WHEELS[1].pwmInfo.pwmOutPort, WHEELS[1].backwardDuty);
         PWMPulseWidthSet(PWM0_BASE, WHEELS[2].pwmInfo.pwmOutPort, WHEELS[2].forwardDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[3].pwmInfo.pwmOutPort, WHEELS[3].forwardDuty);
+        PWMPulseWidthSet(PWM0_BASE, WHEELS[3].pwmInfo.pwmOutPort, WHEELS[3].backwardDuty);
 
         wait();
         PWMPulseWidthSet(PWM0_BASE, WHEELS[0].pwmInfo.pwmOutPort, WHEELS[0].backwardDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[1].pwmInfo.pwmOutPort, WHEELS[1].backwardDuty);
+        PWMPulseWidthSet(PWM0_BASE, WHEELS[1].pwmInfo.pwmOutPort, WHEELS[1].forwardDuty);
         PWMPulseWidthSet(PWM0_BASE, WHEELS[2].pwmInfo.pwmOutPort, WHEELS[2].backwardDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[3].pwmInfo.pwmOutPort, WHEELS[3].backwardDuty);
+        PWMPulseWidthSet(PWM0_BASE, WHEELS[3].pwmInfo.pwmOutPort, WHEELS[3].forwardDuty);
 
         wait();
         PWMPulseWidthSet(PWM0_BASE, WHEELS[0].pwmInfo.pwmOutPort, WHEELS[0].stopDuty);
