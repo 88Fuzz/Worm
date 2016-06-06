@@ -1,10 +1,9 @@
-#include "driverlib/pwm.h"
 #include "driverlib/sysctl.h"
-#include "inc/hw_memmap.h"
 
 #include "Initialize.h"
-#include "PWMDefinitions.h"
 #include "Wheels.h"
+
+#define WAIT (SysCtlClockGet()/7)
 
 void wait();
 
@@ -14,29 +13,23 @@ int main()
     
     while(1)
     {
-        wait();
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[0].pwmInfo.pwmOutPort, WHEELS[0].forwardDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[1].pwmInfo.pwmOutPort, WHEELS[1].backwardDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[2].pwmInfo.pwmOutPort, WHEELS[2].forwardDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[3].pwmInfo.pwmOutPort, WHEELS[3].backwardDuty);
+        wait(WAIT);
+        setDirection(FRONT, STOP);
+        setDirection(BACK, FORWARD);
 
-        wait();
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[0].pwmInfo.pwmOutPort, WHEELS[0].backwardDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[1].pwmInfo.pwmOutPort, WHEELS[1].forwardDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[2].pwmInfo.pwmOutPort, WHEELS[2].backwardDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[3].pwmInfo.pwmOutPort, WHEELS[3].forwardDuty);
+        wait(WAIT);
+        setDirection(BACK, STOP);
+        setDirection(FRONT, FORWARD);
 
-        wait();
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[0].pwmInfo.pwmOutPort, WHEELS[0].stopDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[1].pwmInfo.pwmOutPort, WHEELS[1].stopDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[2].pwmInfo.pwmOutPort, WHEELS[2].stopDuty);
-        PWMPulseWidthSet(PWM0_BASE, WHEELS[3].pwmInfo.pwmOutPort, WHEELS[3].stopDuty);
+        //wait();
+        //setDirection(FRONT, STOP);
+        //setDirection(BACK, STOP);
     }
 
     return 1;
 }
 
-void wait()
+void wait(uint32_t waitTime)
 {
-    SysCtlDelay(SysCtlClockGet()/3);
+    SysCtlDelay(waitTime);
 }
